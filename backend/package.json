@@ -1,0 +1,32 @@
+{
+  "name": "belajar_node",
+  "version": "1.0.0",
+  "description": "projek belajar node",
+  "keywords": [
+    "npm"
+  ],
+  "license": "ISC",
+  "author": "rafi",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "halo",
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.1",
+    "cors": "^2.8.5",
+    "csv-parse": "^6.1.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "express-session": "^1.18.2",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.0.2",
+    "pg": "^8.16.3",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
