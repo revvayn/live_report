@@ -2,9 +2,9 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const session = require("./config/session");
-
 const authRoutes = require("./routes/auth.routes");
 const entryRejectRoutes = require("./routes/entryReject.routes");
+
 
 const app = express();
 
@@ -18,7 +18,6 @@ app.use(cors({
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
-
 app.use(session);
 
 // ======================
@@ -29,7 +28,7 @@ app.use("/api/entry-reject", entryRejectRoutes);
 app.use("/api/reject-rate", require("./routes/rejectRateMechine.routes"));
 app.use("/api/reject-rate", require("./routes/rejectRateFG.routes"));
 app.use("/api/reject-rate", require("./routes/rejectRateFI.routes"));
-
+app.use("/api/reject-rate", require("./routes/rejectRateHotpress.routes"));
 
 // ======================
 // SERVER

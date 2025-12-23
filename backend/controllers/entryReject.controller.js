@@ -22,6 +22,7 @@ exports.getAll = async (req, res) => {
           buyer_name ILIKE $1 OR
           item_code ILIKE $1 OR
           item_description ILIKE $1 OR
+          mesin ILIKE $1 OR
           operator_name ILIKE $1
       `
       : "";
