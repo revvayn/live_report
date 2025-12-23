@@ -11,11 +11,11 @@ const cardBase =
 
 const COLORS = ["#2563eb", "#f97316", "#16a34a", "#eab308", "#9333ea"];
 
-export default function RejectRateFG() {
+export default function RejectRateFI() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    api.get("/reject-rate/grading-fg")
+    api.get("/reject-rate/grading-fi")
       .then(res => {
         console.log("API RESULT:", res.data);
         setData(res.data);
@@ -43,7 +43,7 @@ export default function RejectRateFG() {
           <p className="text-3xl font-bold text-blue-600 mt-1">
             {data.kpi.reject_rate}%
           </p>
-          <p className="text-xs text-gray-400 mt-1">Overall Grading FG</p>
+          <p className="text-xs text-gray-400 mt-1">Overall Grading FI</p>
         </div>
 
         <div className={cardBase}>
@@ -76,7 +76,7 @@ export default function RejectRateFG() {
             Reject Per Hari
           </h3>
           <p className="text-xs text-gray-400">
-            Trend reject harian Grading FG
+            Trend reject harian Grading FI
           </p>
         </div>
 

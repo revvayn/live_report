@@ -1,83 +1,92 @@
 const pool = require("../db");
 
-exports.getRejectRateFG = async (req, res) => {
+exports.getRejectRateFI = async (req, res) => {
   try {
-    const whereFG = `
-      WHERE TRIM(workcenter) ILIKE '%GRADING%FG%'
+    /**
+     * FILTER FI
+     * - aman dari variasi penulisan
+     * - hindari pembagi 0
+     */
+    const whereFI = `
+      WHERE
+        workcenter IS NOT NULL
+        AND UPPER(TRIM(workcenter)) LIKE '%GRADING%'
+        AND UPPER(TRIM(workcenter)) LIKE '%FI%'
+        AND valid_qty_pcs > 0
     `;
 
-    // ================= KPI =================
+    /* ================= KPI ================= */
     const kpiQuery = `
       SELECT
-        COALESCE(SUM(valid_qty_pcs),0) AS cek,
-        COALESCE(SUM(reject_pcs),0) AS reject,
+        COALESCE(SUM(valid_qty_pcs), 0) AS cek,
+        COALESCE(SUM(reject_pcs), 0) AS reject,
         ROUND(
           COALESCE(SUM(reject_pcs),0)::numeric
-          / NULLIF(COALESCE(SUM(valid_qty_pcs),0),0) * 100,
+          / NULLIF(SUM(valid_qty_pcs),0) * 100,
           2
         ) AS reject_rate
       FROM production_reports
-      ${whereFG}
+      ${whereFI}
     `;
 
-    // ================= PER HARI =================
+    /* ================= PER HARI ================= */
     const perHariQuery = `
       SELECT
         DATE(doc_date) AS tanggal,
         ROUND(
-          COALESCE(SUM(reject_pcs),0)::numeric
-          / NULLIF(COALESCE(SUM(valid_qty_pcs),0),0) * 100,
+          SUM(reject_pcs)::numeric
+          / NULLIF(SUM(valid_qty_pcs),0) * 100,
           2
         ) AS reject_rate
       FROM production_reports
-      ${whereFG}
+      ${whereFI}
       GROUP BY DATE(doc_date)
       ORDER BY DATE(doc_date)
     `;
 
-    // ================= PER SHIFT =================
+    /* ================= PER SHIFT ================= */
     const perShiftQuery = `
       SELECT
         COALESCE(shift,'UNKNOWN') AS shift,
         ROUND(
-          COALESCE(SUM(reject_pcs),0)::numeric
-          / NULLIF(COALESCE(SUM(valid_qty_pcs),0),0) * 100,
+          SUM(reject_pcs)::numeric
+          / NULLIF(SUM(valid_qty_pcs),0) * 100,
           2
         ) AS reject_rate
       FROM production_reports
-      ${whereFG}
+      ${whereFI}
       GROUP BY COALESCE(shift,'UNKNOWN')
       ORDER BY shift
     `;
 
-    // ================= PER KATEGORI =================
+    /* ================= PER KATEGORI ================= */
     const kategoriQuery = `
       SELECT
         COALESCE(kategori,'Unknown') AS kategori,
-        COALESCE(SUM(reject_pcs),0) AS reject
+        SUM(reject_pcs) AS reject
       FROM production_reports
-      ${whereFG}
+      ${whereFI}
       GROUP BY COALESCE(kategori,'Unknown')
       ORDER BY reject DESC
     `;
 
-    // ================= TOP 3 BUYER =================
+    /* ================= TOP 3 BUYER ================= */
     const topBuyerQuery = `
       SELECT
         COALESCE(buyer_name,'Unknown Buyer') AS buyer_name,
         ROUND(
-          COALESCE(SUM(reject_pcs),0)::numeric
-          / NULLIF(COALESCE(SUM(valid_qty_pcs),0),0) * 100,
+          SUM(reject_pcs)::numeric
+          / NULLIF(SUM(valid_qty_pcs),0) * 100,
           2
         ) AS reject_rate
       FROM production_reports
-      ${whereFG}
+      ${whereFI}
       GROUP BY COALESCE(buyer_name,'Unknown Buyer')
       ORDER BY reject_rate DESC
       LIMIT 3
     `;
 
-    // ================= DETAIL =================
+    /* ================= DETAIL TABLE ================= */
     const detailQuery = `
       SELECT
         EXTRACT(YEAR FROM doc_date) AS tahun,
@@ -85,19 +94,20 @@ exports.getRejectRateFG = async (req, res) => {
         TO_CHAR(doc_date,'DD') AS tgl,
         COALESCE(shift,'UNKNOWN') AS shift,
         workcenter AS mesin,
-        COALESCE(SUM(valid_qty_pcs),0) AS produk_dicek,
-        COALESCE(SUM(reject_pcs),0) AS pcs_reject,
+        SUM(valid_qty_pcs) AS produk_dicek,
+        SUM(reject_pcs) AS pcs_reject,
         ROUND(
-          COALESCE(SUM(reject_pcs),0)::numeric
-          / NULLIF(COALESCE(SUM(valid_qty_pcs),0),0) * 100,
+          SUM(reject_pcs)::numeric
+          / NULLIF(SUM(valid_qty_pcs),0) * 100,
           2
         ) AS reject_rate
       FROM production_reports
-      ${whereFG}
+      ${whereFI}
       GROUP BY doc_date, shift, workcenter
       ORDER BY doc_date DESC
     `;
 
+    /* ================= EXECUTION ================= */
     const [
       kpi,
       perHari,
@@ -115,7 +125,7 @@ exports.getRejectRateFG = async (req, res) => {
     ]);
 
     res.json({
-      kpi: kpi.rows[0],
+      kpi: kpi.rows[0] || { cek: 0, reject: 0, reject_rate: 0 },
       perHari: perHari.rows,
       perShift: perShift.rows,
       kategori: kategori.rows,
@@ -124,9 +134,9 @@ exports.getRejectRateFG = async (req, res) => {
     });
 
   } catch (err) {
-    console.error("RejectRateFG Error:", err);
+    console.error("RejectRateFI Error:", err);
     res.status(500).json({
-      message: "Gagal mengambil data reject FG",
+      message: "Gagal mengambil data reject FI",
       error: err.message,
     });
   }
