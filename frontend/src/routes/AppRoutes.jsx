@@ -3,7 +3,8 @@ import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import DashboardLayout from "../pages/Dashboard/DashboardLayout";
 import EntryReject from "../pages/Dashboard/EntryReject";
-import RejectRate from "../pages/Dashboard/RejectRate";
+import RejectRateMechine from "../pages/Dashboard/RejectRateMechine";
+import RejectRateFG from "../pages/Dashboard/RejectRateFG";
 import Profile from "../pages/Dashboard/Profile";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -15,7 +16,8 @@ function AppRoutes() {
       <Route element={<DashboardLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/entry-reject" element={<EntryReject />} />
-        <Route path="/reject-rate/machine" element={<RejectRate />} />
+        <Route path="/reject-rate/machine" element={<RejectRateMechine />} />
+        <Route path="/reject-rate/qc-grading-fg" element={<RejectRateFG />} />
         <Route path="/profile" element={<Profile />} />
 
         <Route element={<ProtectedRoute allowedRoles={["Counter"]} />}>

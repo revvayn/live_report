@@ -26,7 +26,8 @@ app.use(session);
 // ======================
 app.use("/api/auth", authRoutes);
 app.use("/api/entry-reject", entryRejectRoutes);
-app.use("/api/reject-rate", require("./routes/rejectRate.routes"));
+app.use("/api/reject-rate", require("./routes/rejectRateMechine.routes"));
+app.use("/api/reject-rate", require("./routes/rejectRateFG.routes"));
 
 
 

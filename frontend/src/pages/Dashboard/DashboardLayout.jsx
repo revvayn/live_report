@@ -121,8 +121,8 @@ function RejectRateDropdown() {
       {open && (
         <div className="mt-1 space-y-1">
           <SubMenuLink to="/reject-rate/machine" label="Machine" />
-          <SubMenuLink to="/reject-rate/qc-grading-fi" label="QC Grading FI" />
           <SubMenuLink to="/reject-rate/qc-grading-fg" label="QC Grading FG" />
+          <SubMenuLink to="/reject-rate/qc-grading-fi" label="QC Grading FI" />
           <SubMenuLink to="/reject-rate/hotpress" label="Hotpress" />
           <SubMenuLink to="/reject-rate/blow-detection" label="Blow Detection" />
           <SubMenuLink to="/reject-rate/sanding" label="Sanding" />
