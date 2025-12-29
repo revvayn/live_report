@@ -124,7 +124,7 @@ function RejectRateDropdown() {
           <SubMenuLink to="/reject-rate/qc-grading-fg" label="QC Grading FG" />
           <SubMenuLink to="/reject-rate/qc-grading-fi" label="QC Grading FI" />
           <SubMenuLink to="/reject-rate/hotpress" label="Hotpress" />
-          <SubMenuLink to="/reject-rate/blow-detection" label="Blow Detection" />
+          <SubMenuLink to="/reject-rate/blow-detector" label="Blow Detector" />
           <SubMenuLink to="/reject-rate/sanding" label="Sanding" />
           <SubMenuLink to="/reject-rate/grading-fg" label="Grading FG" />
           <SubMenuLink to="/reject-rate/grading-fi" label="Grading FI" />
