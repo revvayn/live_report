@@ -1,14 +1,13 @@
 const pool = require("../db");
 
-exports.getRejectRateFG = async (req, res) => {
+exports.getRejectRateSanding = async (req, res) => {
   try {
 
     /* ================= FILTER UTAMA ================= */
-    const whereFG = `
+    const whereSANDING = `
       WHERE
         workcenter IS NOT NULL
-        AND UPPER(workcenter) LIKE '%GRADING%'
-        AND UPPER(workcenter) LIKE '%FG%'
+        AND UPPER(workcenter) LIKE '%SANDING%'
         AND valid_qty_pcs > 0
     `;
 
@@ -20,7 +19,7 @@ exports.getRejectRateFG = async (req, res) => {
           SUM(valid_qty_pcs) AS cek,
           SUM(reject_pcs) AS reject
         FROM production_reports
-        ${whereFG}
+        ${whereSANDING}
         GROUP BY DATE_TRUNC('month', doc_date)
       )
       SELECT
@@ -43,7 +42,7 @@ exports.getRejectRateFG = async (req, res) => {
           2
         ) AS reject_rate
       FROM production_reports
-      ${whereFG}
+      ${whereSANDING}
       GROUP BY DATE(doc_date)
       ORDER BY tanggal
     `;
@@ -58,7 +57,7 @@ exports.getRejectRateFG = async (req, res) => {
           2
         ) AS reject_rate
       FROM production_reports
-      ${whereFG}
+      ${whereSANDING}
       GROUP BY COALESCE(shift, 'UNKNOWN')
       ORDER BY shift
     `;
@@ -69,7 +68,7 @@ exports.getRejectRateFG = async (req, res) => {
         COALESCE(kategori, 'Unknown') AS kategori,
         SUM(reject_pcs) AS reject
       FROM production_reports
-      ${whereFG}
+      ${whereSANDING}
       GROUP BY COALESCE(kategori, 'Unknown')
       ORDER BY reject DESC
     `;
@@ -84,7 +83,7 @@ exports.getRejectRateFG = async (req, res) => {
           2
         ) AS reject_rate
       FROM production_reports
-      ${whereFG}
+      ${whereSANDING}
       GROUP BY COALESCE(buyer_name, 'Unknown Buyer')
       ORDER BY reject_rate DESC
       LIMIT 3
@@ -106,7 +105,7 @@ exports.getRejectRateFG = async (req, res) => {
           2
         ) AS reject_rate
       FROM production_reports
-      ${whereFG}
+      ${whereSANDING}
       GROUP BY doc_date, shift, workcenter
       ORDER BY doc_date DESC
     `;
@@ -139,9 +138,9 @@ exports.getRejectRateFG = async (req, res) => {
     });
 
   } catch (error) {
-    console.error("RejectRateFG Error:", error);
+    console.error("RejectRateSanding Error:", error);
     res.status(500).json({
-      message: "Gagal mengambil data Reject Rate FG",
+      message: "Gagal mengambil data Reject Rate Sanding",
       error: error.message,
     });
   }

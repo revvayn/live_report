@@ -8,6 +8,7 @@ import RejectRateFG from "../pages/Dashboard/RejectRateFG";
 import RejectRateFI from "../pages/Dashboard/RejectRateFI";
 import RejectRateHotpress from "../pages/Dashboard/RejectRateHotpress";
 import RejectRateBlowdetector from "../pages/Dashboard/RejectRateBlowdetector";
+import RejectRateSanding from "../pages/Dashboard/RejectRateSanding";
 import Profile from "../pages/Dashboard/Profile";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -24,6 +25,7 @@ function AppRoutes() {
         <Route path="/reject-rate/qc-grading-fi" element={<RejectRateFI />} />
         <Route path="/reject-rate/hotpress" element={<RejectRateHotpress />} />
         <Route path="/reject-rate/blow-detector" element={<RejectRateBlowdetector />} />
+        <Route path="/reject-rate/sanding" element={<RejectRateSanding />} />
         <Route path="/profile" element={<Profile />} />
 
         <Route element={<ProtectedRoute allowedRoles={["Counter"]} />}>

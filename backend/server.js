@@ -30,6 +30,7 @@ app.use("/api/reject-rate", require("./routes/rejectRateFG.routes"));
 app.use("/api/reject-rate", require("./routes/rejectRateFI.routes"));
 app.use("/api/reject-rate", require("./routes/rejectRateHotpress.routes"));
 app.use("/api/reject-rate", require("./routes/rejectRateBD.routes"));
+app.use("/api/reject-rate", require("./routes/rejectRateSanding.routes"));
 
 // ======================
 // SERVER
