@@ -18,8 +18,7 @@ function Dashboard() {
   }
 
   return (
-    <div className="flex justify-center mt-24 px-4">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-lg text-center">
+      <div className="bg-white p-8 rounded-xl shadow-lg w-full text-center">
         <h2 className="text-3xl font-bold text-gray-800 mb-2">
           Dashboard
         </h2>
@@ -39,7 +38,6 @@ function Dashboard() {
           Silakan pilih menu di atas untuk melanjutkan aktivitas Anda.
         </div>
       </div>
-    </div>
 
   );
 }

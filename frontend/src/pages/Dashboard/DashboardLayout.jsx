@@ -2,11 +2,15 @@ import {
   LayoutDashboard,
   FileInput,
   User,
+  Download,
   LogOut,
+  Trees,
   ChevronLeft,
   ChevronRight,
   BarChart3,
+  Route,
   Factory,
+  TrendingUpIcon,
   Flame,
   ScanLine,
   Layers,
@@ -87,18 +91,16 @@ export default function DashboardLayout() {
     <div className="min-h-screen flex bg-slate-100">
       {/* ================= SIDEBAR ================= */}
       <aside
-        className={`${
-          collapsed ? "w-20" : "w-64"
-        } bg-slate-900 text-slate-100 flex flex-col transition-all duration-300 shadow-2xl`}
+        className={`${collapsed ? "w-20" : "w-64"
+          } bg-slate-900 text-slate-100 flex flex-col transition-all duration-300 shadow-2xl`}
       >
         {/* BRAND */}
         <div className="flex flex-col items-center pt-4">
           <img
             src={logo}
             alt="BBP"
-            className={`transition-all duration-300 ${
-              collapsed ? "w-20" : "w-32"
-            }`}
+            className={`transition-all duration-300 ${collapsed ? "w-20" : "w-32"
+              }`}
           />
         </div>
 
@@ -142,7 +144,16 @@ export default function DashboardLayout() {
             collapsed={collapsed}
             currentPath={location.pathname}
           />
-
+          <BahanBakuDropdown
+            collapsed={collapsed}
+            currentPath={location.pathname}
+          />
+          <MenuLink
+            to="/export-data"
+            icon={Download}
+            label="Export Data"
+            collapsed={collapsed}
+          />
           <MenuLink
             to="/profile"
             icon={User}
@@ -190,10 +201,9 @@ function MenuLink({ to, label, icon: Icon, collapsed }) {
       title={collapsed ? label : ""}
       className={({ isActive }) =>
         `flex items-center gap-3 px-3 py-2 rounded-lg transition font-medium
-        ${
-          isActive
-            ? "bg-slate-800 text-white"
-            : "text-slate-300 hover:bg-slate-800 hover:text-white"
+        ${isActive
+          ? "bg-slate-800 text-white"
+          : "text-slate-300 hover:bg-slate-800 hover:text-white"
         }`
       }
     >
@@ -203,7 +213,7 @@ function MenuLink({ to, label, icon: Icon, collapsed }) {
   );
 }
 
-/* ================= DROPDOWN ================= */
+/* ================= DROPDOWN Reject Rate ================= */
 function RejectRateDropdown({ collapsed, currentPath }) {
   const isActive = currentPath.startsWith("/reject-rate");
   const [open, setOpen] = useState(isActive);
@@ -218,11 +228,10 @@ function RejectRateDropdown({ collapsed, currentPath }) {
         onClick={() => setOpen(!open)}
         title={collapsed ? "Reject Rate" : ""}
         className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition font-medium
-        ${
-          isActive
+        ${isActive
             ? "bg-slate-800 text-white"
             : "text-slate-300 hover:bg-slate-800 hover:text-white"
-        }`}
+          }`}
       >
         <div className="flex items-center gap-3">
           <BarChart3 size={18} />
@@ -231,9 +240,8 @@ function RejectRateDropdown({ collapsed, currentPath }) {
 
         {!collapsed && (
           <span
-            className={`text-xs transition-transform ${
-              open ? "rotate-180" : ""
-            }`}
+            className={`text-xs transition-transform ${open ? "rotate-180" : ""
+              }`}
           >
             ▼
           </span>
@@ -257,6 +265,51 @@ function RejectRateDropdown({ collapsed, currentPath }) {
   );
 }
 
+/* ================= DROPDOWN Bahan Baku ================= */
+function BahanBakuDropdown({ collapsed, currentPath }) {
+  const isActive = currentPath.startsWith("/bahan-baku");
+  const [open, setOpen] = useState(isActive);
+
+  useEffect(() => {
+    setOpen(isActive);
+  }, [isActive]);
+
+  return (
+    <div>
+      <button
+        onClick={() => setOpen(!open)}
+        title={collapsed ? "Bahan Baku" : ""}
+        className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition font-medium
+        ${isActive
+            ? "bg-slate-800 text-white"
+            : "text-slate-300 hover:bg-slate-800 hover:text-white"
+          }`}
+      >
+        <div className="flex items-center gap-3">
+          <Trees size={18} />
+          {!collapsed && "Bahan Baku"}
+        </div>
+
+        {!collapsed && (
+          <span
+            className={`text-xs transition-transform ${open ? "rotate-180" : ""
+              }`}
+          >
+            ▼
+          </span>
+        )}
+      </button>
+
+      {!collapsed && open && (
+        <div className="mt-2 space-y-1">
+          <SubMenuLink to="/bahan-baku/performa" icon={TrendingUpIcon} label="Performa" />
+          <SubMenuLink to="/bahan-baku/asal-log" icon={Route} label="Asal LOG" />
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ================= SUB MENU ================= */
 function SubMenuLink({ to, label, icon: Icon }) {
   return (
@@ -264,10 +317,9 @@ function SubMenuLink({ to, label, icon: Icon }) {
       to={to}
       className={({ isActive }) =>
         `flex items-center gap-3 ml-6 px-3 py-2 rounded-lg text-sm transition
-        ${
-          isActive
-            ? "bg-slate-800 text-white"
-            : "text-slate-400 hover:bg-slate-800 hover:text-white"
+        ${isActive
+          ? "bg-slate-800 text-white"
+          : "text-slate-400 hover:bg-slate-800 hover:text-white"
         }`
       }
     >
