@@ -9,21 +9,45 @@ import {
   Factory,
   Flame,
   ScanLine,
-  Layers
+  Layers,
 } from "lucide-react";
 
 import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
+import logo from "../assets/logo.png";
 import Swal from "sweetalert2";
 
 export default function DashboardLayout() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [time, setTime] = useState("");
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [collapsed, setCollapsed] = useState(false);
+
+  /* ================= CLOCK ================= */
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setTime(
+        now.toLocaleString("id-ID", {
+          weekday: "short",
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+      );
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   /* ================= FETCH USER ================= */
   useEffect(() => {
@@ -61,7 +85,6 @@ export default function DashboardLayout() {
 
   return (
     <div className="min-h-screen flex bg-slate-100">
-
       {/* ================= SIDEBAR ================= */}
       <aside
         className={`${
@@ -69,11 +92,25 @@ export default function DashboardLayout() {
         } bg-slate-900 text-slate-100 flex flex-col transition-all duration-300 shadow-2xl`}
       >
         {/* BRAND */}
-        <div className="flex items-center justify-between px-4 py-5 border-b border-slate-800">
+        <div className="flex flex-col items-center pt-4">
+          <img
+            src={logo}
+            alt="BBP"
+            className={`transition-all duration-300 ${
+              collapsed ? "w-20" : "w-32"
+            }`}
+          />
+        </div>
+
+        {/* HEADER */}
+        <div className="flex items-start justify-between px-4 py-4 border-b border-slate-800">
           {!collapsed && (
             <div>
               <h1 className="text-lg font-semibold">Live Report</h1>
-              <p className="text-xs text-slate-400">PT Bahana Bhumiphala Persada</p>
+              <p className="text-xs text-slate-400">
+                PT Bahana Bhumiphala Persada
+              </p>
+              <p className="text-xs text-gray-400 mt-2">{time}</p>
             </div>
           )}
 
@@ -171,6 +208,10 @@ function RejectRateDropdown({ collapsed, currentPath }) {
   const isActive = currentPath.startsWith("/reject-rate");
   const [open, setOpen] = useState(isActive);
 
+  useEffect(() => {
+    setOpen(isActive);
+  }, [isActive]);
+
   return (
     <div>
       <button
@@ -187,6 +228,7 @@ function RejectRateDropdown({ collapsed, currentPath }) {
           <BarChart3 size={18} />
           {!collapsed && "Reject Rate"}
         </div>
+
         {!collapsed && (
           <span
             className={`text-xs transition-transform ${
@@ -204,7 +246,11 @@ function RejectRateDropdown({ collapsed, currentPath }) {
           <SubMenuLink to="/reject-rate/qc-grading-fg" icon={Layers} label="QC FG" />
           <SubMenuLink to="/reject-rate/qc-grading-fi" icon={Layers} label="QC FI" />
           <SubMenuLink to="/reject-rate/hotpress" icon={Flame} label="Hotpress" />
-          <SubMenuLink to="/reject-rate/blow-detector" icon={ScanLine} label="Blow Detector" />
+          <SubMenuLink
+            to="/reject-rate/blow-detector"
+            icon={ScanLine}
+            label="Blow Detector"
+          />
         </div>
       )}
     </div>
