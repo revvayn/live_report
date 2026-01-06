@@ -250,3 +250,4 @@ exports.clearAll = async (req, res) => {
     res.status(500).json({ success: false, message: "Gagal menghapus data" });
   }
 };
+
