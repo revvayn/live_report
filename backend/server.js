@@ -4,6 +4,7 @@ const cors = require("cors");
 const session = require("./config/session");
 const authRoutes = require("./routes/auth.routes");
 const entryRejectRoutes = require("./routes/entryReject.routes");
+const entryBahanbakuRoutes = require("./routes/entryBahanbaku.routes");
 
 
 const app = express();
@@ -25,6 +26,7 @@ app.use(session);
 // ======================
 app.use("/api/auth", authRoutes);
 app.use("/api/entry-reject", entryRejectRoutes);
+app.use("/api/entry-bahanbaku", entryBahanbakuRoutes);
 app.use("/api/reject-rate", require("./routes/rejectRateMechine.routes"));
 app.use("/api/reject-rate", require("./routes/rejectRateFG.routes"));
 app.use("/api/reject-rate", require("./routes/rejectRateFI.routes"));

@@ -131,7 +131,7 @@ exports.importExcel = async (req, res) => {
         production_no, status_po, sales_order_no, buyer_code, buyer_name,
         status_so, so_cancel, checkin_no, checkout_no, doc_date, bulan, shift,
         operator_name, koordinator, no_proses, workcenter, kategori,
-        item_code, item_description, vol_per_pcs, mesin, route, workcenter2,
+        item_code, item_description, vol_per_pcs, mesin, route, workcenter2, status_check_out,
         input_pcs, input_volume, output_pcs, output_volume,
         valid_qty_pcs, valid_qty, reject_pcs, reject_volume, unit_mesin
       ) VALUES (
@@ -140,7 +140,7 @@ exports.importExcel = async (req, res) => {
         $13,$14,$15,$16,$17,
         $18,$19,$20,$21,$22,$23,
         $24,$25,$26,$27,
-        $28,$29,$30,$31,$32
+        $28,$29,$30,$31,$32,$33
       )
     `;
 
@@ -151,34 +151,46 @@ exports.importExcel = async (req, res) => {
         r.sales_order_no,
         r.buyer_code,
         r.buyer_name,
+      
         r.status_so || null,
         r.so_cancel === true || r.so_cancel === "Y",
+      
         r.checkin_no || null,
         r.checkout_no || null,
         r.doc_date || null,
         r.bulan || null,
         r.shift || null,
+      
         r.operator_name || null,
         r.koordinator || null,
         r.no_proses || null,
         r.workcenter || null,
         r.kategori || null,
+      
         r.item_code,
         r.item_description,
         Number(String(r.vol_per_pcs || 0).replace(",", ".")),
+      
         r.mesin || null,
         r.route || null,
         r.workcenter2 || null,
+        r.status_check_out || null,
+        
         Number(r.input_pcs || 0),
         Number(String(r.input_volume || 0).replace(",", ".")),
+      
         Number(r.output_pcs || 0),
         Number(String(r.output_volume || 0).replace(",", ".")),
+      
         Number(r.valid_qty_pcs || 0),
         Number(String(r.valid_qty || 0).replace(",", ".")),
+      
         Number(r.reject_pcs || 0),
         Number(String(r.reject_volume || 0).replace(",", ".")),
+      
         r.unit_mesin || null,
       ]);
+      
     }
 
     await client.query("COMMIT");

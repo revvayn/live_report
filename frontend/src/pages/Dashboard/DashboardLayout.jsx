@@ -1,6 +1,5 @@
 import {
   LayoutDashboard,
-  FileInput,
   User,
   Download,
   LogOut,
@@ -14,6 +13,8 @@ import {
   Flame,
   ScanLine,
   Layers,
+  TrendingDown,
+  Upload,
 } from "lucide-react";
 
 import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
@@ -132,14 +133,10 @@ export default function DashboardLayout() {
             label="Dashboard"
             collapsed={collapsed}
           />
-
-          <MenuLink
-            to="/entry-reject"
-            icon={FileInput}
-            label="Entry Reject"
+          <EntryDropdown
             collapsed={collapsed}
+            currentPath={location.pathname}
           />
-
           <RejectRateDropdown
             collapsed={collapsed}
             currentPath={location.pathname}
@@ -150,7 +147,7 @@ export default function DashboardLayout() {
           />
           <MenuLink
             to="/export-data"
-            icon={Download}
+            icon={Upload}
             label="Export Data"
             collapsed={collapsed}
           />
@@ -210,6 +207,51 @@ function MenuLink({ to, label, icon: Icon, collapsed }) {
       <Icon size={18} />
       {!collapsed && label}
     </NavLink>
+  );
+}
+
+/* ================= DROPDOWN Entry ================= */
+function EntryDropdown({ collapsed, currentPath }) {
+  const isActive = currentPath.startsWith("/entry");
+  const [open, setOpen] = useState(isActive);
+
+  useEffect(() => {
+    setOpen(isActive);
+  }, [isActive]);
+
+  return (
+    <div>
+      <button
+        onClick={() => setOpen(!open)}
+        title={collapsed ? "Entry Data" : ""}
+        className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition font-medium
+        ${isActive
+            ? "bg-slate-800 text-white"
+            : "text-slate-300 hover:bg-slate-800 hover:text-white"
+          }`}
+      >
+        <div className="flex items-center gap-3">
+          <Download size={18} />
+          {!collapsed && "Entry Data"}
+        </div>
+
+        {!collapsed && (
+          <span
+            className={`text-xs transition-transform ${open ? "rotate-180" : ""
+              }`}
+          >
+            ▼
+          </span>
+        )}
+      </button>
+
+      {!collapsed && open && (
+        <div className="mt-2 space-y-1">
+          <SubMenuLink to="/entry/reject-rate" icon={TrendingDown} label="Reject Rate" />
+          <SubMenuLink to="/entry/reject-bahanbaku" icon={Trees} label="Bahan Baku" />
+        </div>
+      )}
+    </div>
   );
 }
 

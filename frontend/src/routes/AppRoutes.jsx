@@ -2,7 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import DashboardLayout from "../pages/Dashboard/DashboardLayout";
-import EntryReject from "../pages/Dashboard/EntryReject";
+import EntryRejectRate from "../pages/Dashboard/EntryReject";
+import EntryBahanbaku from "../pages/Dashboard/EntryBahanbaku";
 import RejectRateMechine from "../pages/Dashboard/RejectRateMechine";
 import RejectRateFG from "../pages/Dashboard/RejectRateFG";
 import RejectRateFI from "../pages/Dashboard/RejectRateFI";
@@ -19,7 +20,8 @@ function AppRoutes() {
 
       <Route element={<DashboardLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/entry-reject" element={<EntryReject />} />
+        <Route path="/entry/reject-rate" element={<EntryRejectRate />} />
+        <Route path="/entry/reject-bahanbaku" element={<EntryBahanbaku />} />
         <Route path="/reject-rate/machine" element={<RejectRateMechine />} />
         <Route path="/reject-rate/qc-grading-fg" element={<RejectRateFG />} />
         <Route path="/reject-rate/qc-grading-fi" element={<RejectRateFI />} />
@@ -27,7 +29,6 @@ function AppRoutes() {
         <Route path="/reject-rate/blow-detector" element={<RejectRateBlowdetector />} />
         <Route path="/reject-rate/sanding" element={<RejectRateSanding />} />
         <Route path="/profile" element={<Profile />} />
-
         <Route element={<ProtectedRoute allowedRoles={["Counter"]} />}>
           <Route path="/profile" element={<Profile />} />
         </Route>
