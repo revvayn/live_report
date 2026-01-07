@@ -12,6 +12,7 @@ import RejectRateBlowdetector from "../pages/Dashboard/RejectRateBlowdetector";
 import RejectRateSanding from "../pages/Dashboard/RejectRateSanding";
 import Profile from "../pages/Dashboard/Profile";
 import ProtectedRoute from "./ProtectedRoute";
+import BBPerforma from "../pages/Dashboard/BBPerforma";
 
 function AppRoutes() {
   return (
@@ -28,6 +29,8 @@ function AppRoutes() {
         <Route path="/reject-rate/hotpress" element={<RejectRateHotpress />} />
         <Route path="/reject-rate/blow-detector" element={<RejectRateBlowdetector />} />
         <Route path="/reject-rate/sanding" element={<RejectRateSanding />} />
+        <Route path="/reject-rate/sanding" element={<RejectRateSanding />} />
+        <Route path="/bahan-baku/performa" element={<BBPerforma />} />
         <Route path="/profile" element={<Profile />} />
         <Route element={<ProtectedRoute allowedRoles={["Counter"]} />}>
           <Route path="/profile" element={<Profile />} />

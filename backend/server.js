@@ -5,8 +5,6 @@ const session = require("./config/session");
 const authRoutes = require("./routes/auth.routes");
 const entryRejectRoutes = require("./routes/entryReject.routes");
 const entryBahanbakuRoutes = require("./routes/entryBahanbaku.routes");
-
-
 const app = express();
 
 // ======================
@@ -33,7 +31,7 @@ app.use("/api/reject-rate", require("./routes/rejectRateFI.routes"));
 app.use("/api/reject-rate", require("./routes/rejectRateHotpress.routes"));
 app.use("/api/reject-rate", require("./routes/rejectRateBD.routes"));
 app.use("/api/reject-rate", require("./routes/rejectRateSanding.routes"));
-
+app.use("/api/grpo-report", require("./routes/BBPerforma.routes"));
 // ======================
 // SERVER
 // ======================
